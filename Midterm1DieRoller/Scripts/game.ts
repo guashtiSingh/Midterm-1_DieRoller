@@ -39,12 +39,11 @@ var atlas = {
 };
 
 // Game Variables
-var die1Label: createjs.Text; // create a reference
-var die2Label: createjs.Text;
+var die1: createjs.Bitmap;
 var textureAtlas: createjs.SpriteSheet;
 var rollButton: createjs.Bitmap;
 
-var spinResult;
+var rollResult;
 var die = "";
 
 var one = 0;
@@ -140,11 +139,11 @@ function roll() {
 }
 
 // Callback function that allows me to respond to button click events
-function spinButtonClicked(event: createjs.MouseEvent) {
+function rollButtonClicked(event: createjs.MouseEvent) {
     createjs.Sound.play("clicked");
 
-    spinResult = roll();
-    die = spinResult[0] + " - " + spinResult[1] ;
+    rollResult = roll();
+    die = rollResult[0] + " - " + rollResult[1] ;
 
     console.log(die);
 }
@@ -163,15 +162,14 @@ function RollButtonOut() {
 function main() {
     console.log("Game is Running");
 
-
-
     rollButton = new createjs.Bitmap(assets.getResult("rollButton"));
     rollButton.regX = rollButton.getBounds().width * 0.5;
     rollButton.regY = rollButton.getBounds().height * 0.5;
-    rollButton.x = 160;
-    rollButton.y = 270;
+    rollButton.x = 100;
+    rollButton.y = 170;
     stage.addChild(rollButton);
     rollButton.on("click", pinkButtonClicked);
     rollButton.on("mouseover", RollButtonOver);
     rollButton.on("mouseout", RollButtonOut);
+    rollButton.on("click", rollButtonClicked, this);
 }
