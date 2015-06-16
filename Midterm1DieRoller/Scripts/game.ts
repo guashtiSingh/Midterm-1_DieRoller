@@ -13,40 +13,22 @@ var stats: Stats;
 var assets: createjs.LoadQueue;
 var manifest = [
     { id: "rollButton", src: "assets/images/rollButton.png" },
+    { id: "one", src: "assets/images/one.png" },
+    { id: "two", src: "assets/images/two.png" },
+    { id: "three", src: "assets/images/three.png" },
+    { id: "four", src: "assets/images/four.png" },
+    { id: "five", src: "assets/images/five.png" },
+    { id: "six", src: "assets/images/six.png" },
     { id: "clicked", src: "assets/audio/clicked.wav" }
 ];
 
-var atlas = {
-    "images": ["assets/images/atlas.png"],
-    "frames": [
-
-        [2, 2, 64, 64],
-        [2, 68, 64, 64],
-        [2, 134, 64, 64],
-        [200, 2, 49, 49],
-        [200, 53, 49, 49],
-        [200, 104, 49, 49],
-    ],
-    "animations": {
-
-        "one": [0],
-        "two": [1],
-        "three": [2],
-        "four": [3],
-        "five": [4],
-        "six": [5],
-    }
-};
-
 // Game Variables
-var die1: createjs.Bitmap;
+var dieLabel: createjs.Text;
 var textureAtlas: createjs.SpriteSheet;
 var rollButton: createjs.Bitmap;
 
 var rollResult;
 var die = "";
-
-var one = 0;
 
 // Preloader Function
 function preload() {
@@ -109,10 +91,11 @@ function checkRange(value, lowerBounds, upperBounds) {
 }
 
 function roll() {
+
     var dieLine = [" ", " "];
     var outCome = [0,0];
-    for (var roll = 0; roll < 3; roll++) {
-        outCome[roll] = Math.floor((Math.random() * 6));
+    for (var roll = 0; roll < 6; roll++) {
+        outCome[roll] = Math.floor((Math.random() * 6) + 1);
 
         switch (outCome[roll]) {
             case checkRange(outCome[roll], 1, 27):
@@ -136,6 +119,7 @@ function roll() {
         }
     }
     return dieLine;
+    stage.update();
 }
 
 // Callback function that allows me to respond to button click events
