@@ -59,9 +59,11 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\images\atlas.png" />
     <Content Include="assets\images\five.png" />
     <Content Include="assets\images\four.png" />
     <Content Include="assets\images\one.png" />
+    <Content Include="assets\images\rollbutton.png" />
     <Content Include="assets\images\six.png" />
     <Content Include="assets\images\three.png" />
     <Content Include="assets\images\two.png" />

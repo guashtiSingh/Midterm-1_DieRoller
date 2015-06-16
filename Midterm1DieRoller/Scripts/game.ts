@@ -12,15 +12,42 @@ var stats: Stats;
 
 var assets: createjs.LoadQueue;
 var manifest = [
-    { id: "pinkButton", src: "assets/images/pinkButton.png" },
+    { id: "rollButton", src: "assets/images/rollButton.png" },
     { id: "clicked", src: "assets/audio/clicked.wav" }
 ];
 
+var atlas = {
+    "images": ["assets/images/atlas.png"],
+    "frames": [
+
+        [2, 2, 64, 64],
+        [2, 68, 64, 64],
+        [2, 134, 64, 64],
+        [200, 2, 49, 49],
+        [200, 53, 49, 49],
+        [200, 104, 49, 49],
+    ],
+    "animations": {
+
+        "one": [0],
+        "two": [1],
+        "three": [2],
+        "four": [3],
+        "five": [4],
+        "six": [5],
+    }
+};
 
 // Game Variables
-var helloLabel: createjs.Text; // create a reference
-var pinkButton: createjs.Bitmap;
+var die1Label: createjs.Text; // create a reference
+var die2Label: createjs.Text;
+var textureAtlas: createjs.SpriteSheet;
+var rollButton: createjs.Bitmap;
 
+var spinResult;
+var die = "";
+
+var one = 0;
 
 // Preloader Function
 function preload() {
@@ -73,35 +100,78 @@ function pinkButtonClicked(event: createjs.MouseEvent) {
     createjs.Sound.play("clicked");
 }
 
-// Callback functions that change the alpha transparency of the button
+function checkRange(value, lowerBounds, upperBounds) {
+    if (value >= lowerBounds && value <= upperBounds) {
+        return value;
+    }
+    else {
+        return !value;
+    }
+}
+
+function roll() {
+    var dieLine = [" ", " "];
+    var outCome = [0,0];
+    for (var roll = 0; roll < 3; roll++) {
+        outCome[roll] = Math.floor((Math.random() * 6));
+
+        switch (outCome[roll]) {
+            case checkRange(outCome[roll], 1, 27):
+                dieLine[roll] = "one";
+                break;
+            case checkRange(outCome[roll], 28, 27):
+                dieLine[roll] = "two";
+                break;
+            case checkRange(outCome[roll], 38, 46):
+                dieLine[roll] = "three";
+                break;
+            case checkRange(outCome[roll], 47, 54):
+                dieLine[roll] = "four";
+                break;
+            case checkRange(outCome[roll], 55, 59):
+                dieLine[roll] = "five";
+                break;
+            case checkRange(outCome[roll], 60, 62):
+                dieLine[roll] = "six";
+                break;
+        }
+    }
+    return dieLine;
+}
+
+// Callback function that allows me to respond to button click events
+function spinButtonClicked(event: createjs.MouseEvent) {
+    createjs.Sound.play("clicked");
+
+    spinResult = roll();
+    die = spinResult[0] + " - " + spinResult[1] ;
+
+    console.log(die);
+}
 
 // Mouseover event
-function pinkButtonOver() {
-    pinkButton.alpha = 0.8;
+function RollButtonOver() {
+    rollButton.alpha = 0.8;
 }
 
 // Mouseout event
-function pinkButtonOut() {
-    pinkButton.alpha = 1.0;
+function RollButtonOut() {
+    rollButton.alpha = 1.0;
 }
 
 // Our Main Game Function
 function main() {
     console.log("Game is Running");
-    helloLabel = new createjs.Text("Hello World!", "40px Consolas", "#000000");
-    helloLabel.regX = helloLabel.getMeasuredWidth() * 0.5;
-    helloLabel.regY = helloLabel.getMeasuredHeight() * 0.5;
-    helloLabel.x = 160;
-    helloLabel.y = 190;
-    stage.addChild(helloLabel);
 
-    pinkButton = new createjs.Bitmap(assets.getResult("pinkButton"));
-    pinkButton.regX = pinkButton.getBounds().width * 0.5;
-    pinkButton.regY = pinkButton.getBounds().height * 0.5;
-    pinkButton.x = 160;
-    pinkButton.y = 270;
-    stage.addChild(pinkButton);
-    pinkButton.on("click", pinkButtonClicked);
-    pinkButton.on("mouseover", pinkButtonOver);
-    pinkButton.on("mouseout", pinkButtonOut);
+
+
+    rollButton = new createjs.Bitmap(assets.getResult("rollButton"));
+    rollButton.regX = rollButton.getBounds().width * 0.5;
+    rollButton.regY = rollButton.getBounds().height * 0.5;
+    rollButton.x = 160;
+    rollButton.y = 270;
+    stage.addChild(rollButton);
+    rollButton.on("click", pinkButtonClicked);
+    rollButton.on("mouseover", RollButtonOver);
+    rollButton.on("mouseout", RollButtonOut);
 }
