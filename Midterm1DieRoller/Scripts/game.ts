@@ -24,7 +24,6 @@ var manifest = [
 
 // Game Variables
 var dieLabel: createjs.Text;
-var textureAtlas: createjs.SpriteSheet;
 var rollButton: createjs.Bitmap;
 
 var rollResult;
@@ -119,7 +118,6 @@ function roll() {
         }
     }
     return dieLine;
-    stage.update();
 }
 
 // Callback function that allows me to respond to button click events
